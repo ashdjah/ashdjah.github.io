@@ -3,38 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ashdjah — TWRP for Samsung Galaxy A02s (SM-A025F / a02q)</title>
-  <meta name="description" content="Project hub for ashdjah. Unofficial TWRP 12.1 recovery for Samsung Galaxy A02s SM-A025F and SM-A025F/DS, codename a02q, Snapdragon 450 MSM8953.">
-  <meta name="keywords" content="ashdjah, TWRP, SM-A025F, a02q, Samsung Galaxy A02s, custom recovery, Android 12, MSM8953, Odin">
+  <title>ashdjah - TWRP builds for Galaxy A02s</title>
+  <meta name="description" content="Device trees and recovery images for Samsung Galaxy A02s. TWRP 12.1 for SM-A025F and SM-A025F/DS, codename a02q.">
+  <meta name="keywords" content="ashdjah, TWRP, SM-A025F, a02q, Galaxy A02s, Samsung recovery, Android 12, MSM8953">
   <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0a0c0d">
   <link rel="canonical" href="https://ashdjah.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ashdjah - TWRP builds for Galaxy A02s">
+  <meta property="og:description" content="Device trees, recovery images and build logs for SM-A025F / a02q.">
+  <meta property="og:url" content="https://ashdjah.github.io/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0c0d'/%3E%3Cpath d='M8 16h16M16 8v16' stroke='%238bd450' stroke-width='3'/%3E%3C/svg%3E">
   <style>
-    :root { color-scheme: dark; }
-    body { margin: 0; background: #0d1117; color: #e6edf3; font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { max-width: 48rem; margin: 0 auto; padding: 3rem 1.25rem; }
-    h1 { font-size: 2rem; line-height: 1.25; }
-    a { color: #58a6ff; }
-    code { background: #161b22; border: 1px solid #30363d; border-radius: 4px; padding: .1rem .35rem; }
-    .card { border: 1px solid #30363d; border-radius: 8px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
-    .lead { color: #9198a1; }
+    :root {
+      color-scheme: dark;
+      --bg: #0a0c0d;
+      --surface: #111417;
+      --line: #242a2f;
+      --text: #e7eaec;
+      --muted: #98a2a9;
+      --accent: #8bd450;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.65 var(--sans); }
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid #3c5a2a; }
+    a:hover { border-bottom-color: currentColor; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .skip { position: absolute; left: -999px; }
+    .skip:focus { left: 1rem; top: 1rem; z-index: 10; padding: .5rem .75rem; background: var(--surface); }
+    header.site, main, footer { max-width: 900px; margin: 0 auto; }
+    header.site { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); }
+    .mark { border: 0; font: 600 .85rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text); }
+    .lang { font: 11px/1 var(--mono); letter-spacing: .14em; }
+    .lang span { color: var(--muted); margin: 0 .4rem; }
+    main { padding: 3.25rem 1.25rem 4rem; }
+    .eyebrow { margin: 0 0 1rem; font: 11px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+    h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -.03em; font-weight: 650; }
+    h2 { margin: 2.5rem 0 1rem; font-size: 1.15rem; }
+    .lede { max-width: 44rem; margin: 0 0 2rem; font-size: 1.05rem; color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 2.5rem; }
+    .btn { display: inline-block; padding: .6rem 1rem; border: 1px solid var(--line); border-radius: 4px; font-size: .9rem; }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #0a0c0d; font-weight: 600; }
+    .btn.primary:hover { background: #a1e36a; }
+    .project { border: 1px solid var(--line); background: var(--surface); padding: 1.25rem; }
+    .project h3 { margin: 0 0 .5rem; font-size: 1rem; }
+    .project p { margin: 0 0 .75rem; color: var(--muted); }
+    .meta { font: 11px/1.5 var(--mono); color: var(--muted); }
+    footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.5rem 1.25rem 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+    @media (max-width: 600px) {
+      header.site { padding: .8rem 1rem; }
+      main { padding: 2rem 1rem 3rem; }
+      .actions .btn { flex: 1 1 auto; text-align: center; }
+      footer { padding: 1.5rem 1rem 3rem; }
+    }
   </style>
 </head>
 <body>
-<main>
-  <h1>ashdjah</h1>
-  <p class="lead">Android recovery builds and device trees.</p>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site">
+    <a class="mark" href="https://ashdjah.github.io/">ashdjah</a>
+    <nav class="lang" aria-label="Language"><a href="#en">EN</a><span>/</span><a href="#tr">TR</a></nav>
+  </header>
 
-  <div class="card">
-    <h2><a href="https://ashdjah.github.io/android_device_samsung_a02q/">TWRP for Samsung Galaxy A02s</a></h2>
-    <p>Unofficial TWRP 12.1 for <strong>SM-A025F</strong> / <strong>SM-A025F/DS</strong> (<code>a02q</code>), Snapdragon 450 / MSM8953. Device tree, source, automated builds and hardware test notes.</p>
-    <p>
-      <a href="https://github.com/ashdjah/android_device_samsung_a02q">Source</a> ·
-      <a href="https://github.com/ashdjah/android_device_samsung_a02q/releases">Downloads</a> ·
-      <a href="https://github.com/ashdjah/android_device_samsung_a02q/issues">Issues</a>
-    </p>
-  </div>
+  <main id="main">
+    <p class="eyebrow">RECOVERY BUILDS / SM-A025F</p>
+    <h1>TWRP builds for Galaxy A02s</h1>
+    <p class="lede">Device trees, recovery images and build logs for SM-A025F and SM-A025F/DS, codename a02q.</p>
+    <div class="actions">
+      <a class="btn primary" href="https://ashdjah.github.io/android_device_samsung_a02q/">Project page</a>
+      <a class="btn" href="https://github.com/ashdjah">GitHub repositories</a>
+    </div>
 
-  <p><a href="https://github.com/ashdjah">All GitHub repositories</a></p>
-</main>
+    <section id="en" lang="en">
+      <h2>Active project</h2>
+      <div class="project">
+        <h3><a href="https://ashdjah.github.io/android_device_samsung_a02q/">TWRP 12.1 for Galaxy A02s</a></h3>
+        <p>Latest release 20261122d. Touch confirmed on one SM-A025F on 22 Nov 2026. Other panel variants still need reports. Source, Odin packages and build logs are linked from the project page.</p>
+        <p class="meta"><a href="https://github.com/ashdjah/android_device_samsung_a02q/releases">Packages</a> / <a href="https://github.com/ashdjah/android_device_samsung_a02q/issues">Issues</a></p>
+      </div>
+    </section>
+
+    <section id="tr" lang="tr">
+      <h2>Aktif proje</h2>
+      <div class="project">
+        <h3><a href="https://ashdjah.github.io/android_device_samsung_a02q/">Galaxy A02s için TWRP 12.1</a></h3>
+        <p>Son sürüm 20261122d. Dokunmatik, 22 Kas 2026'da tek bir SM-A025F cihazında doğrulandı. Diğer panel varyantları için rapor bekleniyor. Kaynak, Odin paketleri ve derleme kayıtları proje sayfasında.</p>
+        <p class="meta"><a href="https://github.com/ashdjah/android_device_samsung_a02q/releases">Paketler</a> / <a href="https://github.com/ashdjah/android_device_samsung_a02q/issues">Sorunlar</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span><a href="https://github.com/ashdjah/android_device_samsung_a02q">a02q device tree</a> / MIT</span>
+    <span>Last update: 25 Nov 2026</span>
+  </footer>
 </body>
 </html>
